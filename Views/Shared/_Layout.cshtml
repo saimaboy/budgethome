@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <script src="~/Content/js/choices.min.js"></script>
+    <script src="~/Content/js/main.js"></script>
+    <link id="style" href="~/Content/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/css/icons.css" rel="stylesheet">
+    <link href="~/Content/css/styles.css" rel="stylesheet">
+    <link href="~/Content/lib/node-waves/waves.min.css" rel="stylesheet">
+    <link href="~/Content/lib/simplebar/simplebar.min.css" rel="stylesheet">
+    <link href="~/Content/lib/flatpickr/flatpickr.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel='stylesheet'>
+    <link href="~/Content/noUiSlider/nouislider.css" rel='stylesheet'>
+    <link href="~/Content/noUiSlider/nouislider.min.css" rel='stylesheet'>
+    <link href="~/Content/css/choices.min.css" rel='stylesheet'>
+   
+</head>
+<body>
+
+    <div class="page">
+        <aside class="app-sidebar sticky" id="sidebar">
+            <div class="main-sidebar-header">
+                <a href="index.html" class="header-logo">
+                    <h2 class="">BHD</h2>
+                </a>
+            </div>
+            <div class="main-sidebar" id="sidebar-scroll">
+                <nav class="main-menu-container nav nav-pills flex-column sub-open">
+                    <ul class="main-menu">
+                        <li class="slide__category"><span class="category-name">Main</span></li>
+                        <li class="slide cursor-pointer">
+                            <a href="@Url.Action("Index", "Home")" class="side-menu__item @(ViewContext.RouteData.Values["action"].ToString() == "Index" && ViewContext.RouteData.Values["controller"].ToString() == "Home" ? "active" : "")">
+                                <i class="bx bxs-dashboard side-menu__icon"></i>
+                                <span class="side-menu__label">Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="slide cursor-pointer">
+                            <a href="@Url.Action("Plans", "Home")" class="side-menu__item @(ViewContext.RouteData.Values["action"].ToString() == "Plans" && ViewContext.RouteData.Values["controller"].ToString() == "Home" ? "active" : "")">
+                                <i class="bx bxs-map-pin side-menu__icon"></i>
+                                <span class="side-menu__label">Plans</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+
+        <div id="loader">
+            <img src="~/Content/images/loader.svg" alt="">
+        </div>
+        @RenderBody()
+        <footer class="footer mt-auto py-3 bg-white text-center">
+            <div class="container">
+                <span class="text-muted">
+                    Budget Home Design
+                </span>
+            </div>
+        </footer>
+    </div>
+
+    <div id="responsive-overlay"></div>
+    <script src="~/Content/js/popper.min.js"></script>
+    <script src="~/Content/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Content/js/defaultmenu.min.js"></script>
+    <script src="~/Content/lib/node-waves/waves.min.js"></script>
+    <script src="~/Content/js/sticky.js"></script>
+    <script src="~/Content/lib/simplebar.min.js"></script>
+    <script src="~/Content/js/simplebar.js"></script>
+    <script src="~/Content/js/pickr.es5.min.js"></script>
+    <script src="~/Content/js/custom-switcher.min.js"></script>
+    <script src="~/Content/js/custom.js"></script>
+    <script src="~/Content/noUiSlider/nouislider.js"></script>
+    <script src="~/Content/noUiSlider/nouislider.min.js"></script>
+    
+</body>
+</html>

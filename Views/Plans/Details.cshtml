@@ -1,0 +1,90 @@
+﻿@model BudgetHomeDesign.Models.Plan
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>Plan</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Price)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Price)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Title)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Size)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Size)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Steps)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Steps)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.People)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.People)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Floors)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Floors)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.PictureUrl)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.PictureUrl)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

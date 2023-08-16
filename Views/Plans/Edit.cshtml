@@ -1,0 +1,164 @@
+﻿@model BudgetHomeDesign.Models.Plan
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Create</title>
+    <link rel="icon" href="~/Content/images/favicon.ico" type="image/x-icon">
+    <script src="~/Content/js/choices.min.js"></script>
+    <script src="~/Content/js/main.js"></script>
+    <link id="style" href="~/Content/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/css/icons.css" rel="stylesheet">
+    <link href="~/Content/css/styles.css" rel="stylesheet">
+    <link href="~/Content/lib/node-waves/waves.min.css" rel="stylesheet">
+    <link href="~/Content/lib/simplebar/simplebar.min.css" rel="stylesheet">
+    <link href="~/Content/lib/flatpickr/flatpickr.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel='stylesheet'>
+    <link rel="stylesheet" href="~/Content/lib/quill/quill.snow.css">
+    <link rel="stylesheet" href="~/Content/lib/quill/quill.bubble.css">
+
+    <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet">
+</head>
+<body>
+
+    @using (Html.BeginForm("Edit", "Plans", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="main-content app-content">
+            <div class="container-fluid">
+
+                <!-- Page Header -->
+                <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
+                    <h1 class="page-title fw-semibold fs-18 mb-0">Create Plan</h1>
+                    <div class="ms-md-1 ms-0">
+                        <nav>
+                            <ol class="breadcrumb mb-0">
+                                <li class="breadcrumb-item"><a href="#">Plan</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Create Plan</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+                <!-- Page Header Close -->
+                <!-- Start::row-1 -->
+                <div class="row">
+                    <div class="col-xxl-9 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                        <div class="card custom-card">
+                            <div class="card-header">
+                                <div class="card-title">Add Plan</div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row gy-3">
+                                    <div class="col-xl-12">
+                                        <label for="plan-title" class="form-label">Title</label>
+                                        <input type="text" name="Title" value="@Model.Title" class="form-control" id="plan-title" placeholder="Plan Title">
+                                    </div>
+                                    <div class="col-xl-12">
+                                        <label for="plan-category" class="form-label">Plan Steps</label>
+                                        <select class="form-control" data-trigger name="Steps" id="plan-step">
+                                            <option value="1" @(ViewBag.Steps == 1 ? "selected" : "")>Foundation</option>
+                                            <option value="2" @(ViewBag.Steps == 2 ? "selected" : "")>Floor Finish</option>
+                                            <option value="3" @(ViewBag.Steps == 3 ? "selected" : "")>Full Finish</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-xl-6">
+                                        <label for="plan-author" class="form-label">Price</label>
+                                        <input type="number" name="Price" value="@Model.Price" class="form-control" id="plan-price" placeholder="Enter Price">
+                                    </div>
+                                    <div class="col-xl-6">
+                                        <label for="plan-size" class="form-label">Size</label>
+                                        <input type="number" name="Size" value="@Model.Size" class="form-control" id="plan-size" placeholder="Enter Size">
+                                    </div>
+                                    <div class="col-xl-6">
+                                        <label for="people" class="form-label">Floors</label>
+                                        <input type="number" name="Floors" value="@Model.Floors" class="form-control" id="Floors" placeholder="Enter Floors">
+                                    </div>
+                                    <div class="col-xl-6">
+                                        <label for="people" class="form-label">People</label>
+                                        <input type="number" name="People" value="@Model.People" class="form-control" placeholder="Enter People">
+                                    </div>
+                                    <div class="col-xl-12">
+                                        <label class="form-label">Plan Description</label>
+                                        <div id="plan-content" class="overflow-hidden" style="height: 200px;"></div>
+                                        <input type="hidden" value="@Model.Description" name="Description" id="editor-content-field">
+                                    </div>
+                                    <div class="col-xl-12 plan-images-container">
+                                        <label for="plan-author-email" class="form-label">Plan Images</label>
+                                        <input type="file" class="form-control" name="PictureUrl" data-max-file-size="5MB">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="btn-list text-end">
+                                    <button type="button" class="btn btn-sm btn-light">Save As Draft</button>
+                                    <button type="submit" class="btn btn-sm btn-primary">Post Plan</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--End::row-1 -->
+
+            </div>
+        </div>
+    }
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+
+
+    <div id="responsive-overlay"></div>
+    <script src="~/Content/js/popper.min.js"></script>
+    <script src="~/Content/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Content/js/defaultmenu.min.js"></script>
+    <script src="~/Content/lib/node-waves/waves.min.js"></script>
+    <script src="~/Content/js/sticky.js"></script>
+    <script src="~/Content/lib/simplebar.min.js"></script>
+    <script src="~/Content/js/simplebar.js"></script>
+    <script src="~/Content/js/pickr.es5.min.js"></script>
+    <script src="~/Content/js/custom-switcher.min.js"></script>
+    <script src="~/Content/js/custom.js"></script>
+    <script src="~/Content/lib/quill/quill.min.js"></script>
+    <script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
+    <script>
+        var toolbarOptions = [
+  ['bold', 'italic', 'underline', 'strike'],
+  [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+  [{ 'script': 'sub' }, { 'script': 'super' }],
+  [{ 'indent': '-1' }, { 'indent': '+1' }],
+  [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+  [{ 'color': [] }, { 'background': [] }],
+  [{ 'font': [] }],
+  [{ 'align': [] }],
+  ['link', 'image']
+        ];
+        var quill = new Quill('#plan-content', {
+            theme: 'snow',
+            modules: {
+            toolbar: toolbarOptions
+        }
+    });
+
+        quill.root.innerHTML = '@Html.Raw(Model.Description)';
+
+        var editorContentField = document.getElementById('editor-content-field');
+        editorContentField.value = quill.root.innerHTML; // Set initial value for submission
+
+        // Update the hidden input field with the content when the form is submitted
+        var form = document.querySelector('form');
+        form.addEventListener('submit', function () {
+            editorContentField.value = quill.root.innerHTML;
+    });
+    </script>
+</body>
+</html>

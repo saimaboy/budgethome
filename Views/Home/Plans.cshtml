@@ -1,0 +1,406 @@
+﻿@model List<BudgetHomeDesign.Models.CategorizedPlanGroup>
+@{
+    ViewBag.Title = "Plans";
+}
+
+
+@{
+    <style>
+        .text-multiline-3 {
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 4;
+        }
+
+        .custom-table {
+            border-collapse: separate;
+            border-spacing: 0.5rem;
+        }
+
+        .modal-body img {
+            width: -webkit-fill-available;
+        }
+        .my-card-bg{
+            background-color: red;
+        }
+    </style>
+}
+
+<div class="main-content app-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xxl-9 col-xl-8">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card custom-card">
+                            <div class="card-body p-3">
+                                <div class="row align-items-center">
+                                    <div class="col-lg-8">
+                                        <div class="d-flex">
+                                            <h5 class="fw-semibold mb-0"><span class="fw-normal">Showing</span> @(Model?.Count ?? 0) Plans</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    @if (Model != null)
+                    {
+                        foreach (var category in Model)
+                        {
+                            <div class="col-xl-12">
+                            <div class="card custom-card p-3">
+                                <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                    <h4>@category.StepName</h4>
+                                    <div class="row">
+                                        @foreach (var plan in category.Plans)
+                                        {
+                                            <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 col-sm-12 p-2">
+                                                <div class="card custom-card border border-1">
+                                                    <img src="@Url.Content("~/Content/images/Uploads/" + plan.PictureUrl)" class="card-img-top" alt="Plan Image" height="200" />
+                                                    <div class="card-body border border-1">
+                                                        <h6 class="card-title fw-semibold">@Html.DisplayFor(modelItem => plan.Title)</h6>
+                                                        <p class="card-text text-muted text-multiline-3">
+                                                            @Html.Raw(System.Text.RegularExpressions.Regex.Replace(HttpUtility.HtmlDecode(plan.Description), @"<[^>]+>|&nbsp;", "").Trim())
+                                                        </p>
+                                                        <div class="d-flex">
+                                                            <button type="button" class="form-control" data-bs-toggle="modal"
+                                                                    data-bs-target="#material_@plan.Steps">
+                                                                Material
+                                                            </button>
+                                                            <div class="m-1"></div>
+                                                            <button type="button" class="form-control btn btn-primary" data-bs-toggle="modal"
+                                                                    data-bs-target="#@plan.Id">
+                                                                Read More
+                                                            </button>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="modal fade" id="@plan.Id" tabindex="-1"
+                                                 aria-labelledby="exampleModalScrollable" data-bs-keyboard="false"
+                                                 aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-scrollable">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h6 class="modal-title" id="staticBackdropLabel1">
+                                                                @Html.DisplayFor(modelItem => plan.Title)
+                                                            </h6>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                    aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <img src="@Url.Content("~/Content/images/Uploads/" + plan.PictureUrl)" class="card-img-top" alt="Plan Image" />
+                                                            <table class="table">
+                                                                <tr>
+                                                                    <td class="fw-semibold col-1 font-weight-bold">Price</td>
+                                                                    <td class="col-6">@Html.DisplayFor(modelItem => plan.Price) Million LKR</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="fw-semibold col-1 font-weight-bold">People</td>
+                                                                    <td class="col-6">@Html.DisplayFor(modelItem => plan.People)</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="fw-semibold col-1 font-weight-bold">Size</td>
+                                                                    <td class="col-6">@Html.DisplayFor(modelItem => plan.Size)m&#x00B2;</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="fw-semibold col-1 font-weight-bold">Floors</td>
+                                                                    <td class="col-6">@Html.DisplayFor(modelItem => plan.Floors)</td>
+                                                                </tr>
+                                                            </table>
+                                                            <p>
+                                                                @Html.Raw(plan.Description)
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                           </div>
+                        }
+                    }
+                    else
+                    {
+                        <p>First, Go to <a href="@Url.Action("Index", "Home")" class="text-decoration-underline text-primary">Dashboard</a> </p>
+                    }
+                    @if (Model?.Count == 0)
+                    {
+                        <p>No Plan Suggestion <a href="@Url.Action("Index", "Home")" class="text-decoration-underline text-primary">Go Back</a></p>
+                    }
+
+                </div>
+            </div>
+
+            <div class="col-xxl-3 col-xl-4">
+                <form method="get" action="@Url.Action("FilterResultsEdit", "Home")">
+                    <div class="card custom-card">
+                        <div class="card-header">
+                            <div class="card-title">Finishing</div>
+                        </div>
+                        <div class="card-body">
+                            <div class="col-xl-12">
+                                <label class="form-label">Finishing</label>
+                                <select class="form-control" data-trigger name="Steps">
+                                    <option value="" selected>Any</option>
+                                    <option value="1" @(ViewBag.Steps == 1 ? "selected" : "")>Classic Design</option>
+                                    <option value="2" @(ViewBag.Steps == 2 ? "selected" : "")>Modern Design</option>
+                                    <option value="3" @(ViewBag.Steps == 3 ? "selected" : "")>First floor only classical</option>
+                                    <option value="4" @(ViewBag.Steps == 4 ? "selected" : "")>First floor only modern</option>
+                                    <option value="5" @(ViewBag.Steps == 5 ? "selected" : "")>Foundation only</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card custom-card">
+                        <div class="card-header">
+                            <div class="card-title">Search Details</div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row gy-3">
+                                <div class="col-xl-12">
+                                    <label class="form-label">Price Range (LKR Million)</label>
+                                    <select class="form-control" name="Price">
+                                        <option value="" selected>Any</option>
+                                        <option value="1" @(ViewBag.Price == 1 ? "selected" : "")>5M - 12M</option>
+                                        <option value="2" @(ViewBag.Price == 2 ? "selected" : "")>12M - 18M</option>
+                                        <option value="3" @(ViewBag.Price == 3 ? "selected" : "")>18M - 25M</option>
+                                        <option value="4" @(ViewBag.Price == 4 ? "selected" : "")>25M - 35M</option>
+                                        <option value="5" @(ViewBag.Price == 5 ? "selected" : "")>35M+</option>
+                                    </select>
+                                </div>
+                                <div class="col-xl-12">
+                                    <label for="Land Size" class="form-label">Land Size (m&#x00B2;)</label>
+                                    <input type="number" class="form-control" id="Land-Size" placeholder="Area" name="Size" value="@ViewBag.Size">
+                                </div>
+                                <div class="col-xl-12">
+                                    <label for="People" class="form-label">People</label>
+                                    <input type="number" class="form-control" id="People" placeholder="People" name="People" value="@ViewBag.People">
+                                </div>
+                                <div class="col-xl-12">
+                                    <label for="Floors" class="form-label">Floors</label>
+                                    <input type="text" class="form-control" id="Floors" placeholder="Floors" name="Floors" value="@ViewBag.Floors">
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                    <input type="reset" class="form-control" value="Clear">
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                    <input type="submit" class="form-control btn btn-primary" value="Filter">
+                                </div>
+
+                            </div>
+                            
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="material_1" tabindex="-1"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="exampleModalLabel1">Material for Classic Design</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table text-nowrap">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Unit Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (ViewBag.MaterialClassics != null)
+                            {
+                            foreach (var item in ViewBag.MaterialClassics)
+                            {
+                                <tr>
+                                    <th scope="row">@item.Name</th>
+                                    <td>@item.Quantity</td>
+                                    <td>@item.UnitPrice</td>
+                                </tr>
+                            }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="material_2" tabindex="-1"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="exampleModalLabel1">Material for Modern Design</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table text-nowrap">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Unit Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (ViewBag.MaterialModerns != null)
+                            {
+                                foreach (var item in ViewBag.MaterialModerns)
+                                {
+                                    <tr>
+                                        <th scope="row">@item.Name</th>
+                                        <td>@item.Quantity</td>
+                                        <td>@item.UnitPrice</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="material_3" tabindex="-1"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="exampleModalLabel1">Material for First floor only classical</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table text-nowrap">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Unit Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (ViewBag.FirstFloorClassic != null)
+                            {
+                                foreach (var item in ViewBag.FirstFloorClassic)
+                                {
+                                    <tr>
+                                        <th scope="row">@item.Name</th>
+                                        <td>@item.Quantity</td>
+                                        <td>@item.UnitPrice</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="material_4" tabindex="-1"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="exampleModalLabel1">Material for First floor only modern</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table text-nowrap">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Unit Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (ViewBag.FirstFloorModern != null)
+                            {
+                                foreach (var item in ViewBag.FirstFloorModern)
+                                {
+                                    <tr>
+                                        <th scope="row">@item.Name</th>
+                                        <td>@item.Quantity</td>
+                                        <td>@item.UnitPrice</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="material_5" tabindex="-1"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="exampleModalLabel1">Material for Foundation only</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table text-nowrap">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Unit Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (ViewBag.FoundationOnly != null)
+                            {
+                                foreach (var item in ViewBag.FoundationOnly)
+                                {
+                                    <tr>
+                                        <th scope="row">@item.Name</th>
+                                        <td>@item.Quantity</td>
+                                        <td>@item.UnitPrice</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
